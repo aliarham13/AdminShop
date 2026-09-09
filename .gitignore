@@ -76,3 +76,8 @@ Desktop.ini
 .idea/
 *.sublime-workspace
 *.sublime-project
+
+.env
+.env*
+frontend/.env
+backend/.env

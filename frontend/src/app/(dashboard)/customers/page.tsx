@@ -29,7 +29,7 @@ export default function CustomersPage() {
   }, []);
 
   const loadCustomers = () => {
-    fetch("http://localhost:8000/api/customers/")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/customers`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setCustomers(data);
@@ -56,7 +56,7 @@ export default function CustomersPage() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:8000/api/customers/", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/customers`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -85,7 +85,7 @@ export default function CustomersPage() {
     if (!editingCustomer) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/api/customers/${editingCustomer.id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/customers/${editingCustomer.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -112,7 +112,7 @@ export default function CustomersPage() {
   const handleDeleteCustomer = (id: number) => {
     if (!confirm("Are you sure you want to delete this customer?")) return;
 
-    fetch(`http://localhost:8000/api/customers/${id}`, { method: "DELETE" })
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/customers/${id}`, { method: "DELETE" })
       .then(() => setCustomers(customers.filter((c) => c.id !== id)))
       .catch((err) => console.error(err));
   };

@@ -10,10 +10,18 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000"],
-    allow_methods=["*"]
+    allow_methods=["*"],
+    allow_headers=["*"],
+    allow_credentials=True,
+    
 )
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
 
+
+    
 app.include_router(categories.api)
 app.include_router(customers.api)
 app.include_router(products.api)

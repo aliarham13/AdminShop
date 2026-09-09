@@ -31,7 +31,7 @@ export default function OrdersPage() {
   }, []);
 
   const loadData = () => {
-    fetch("http://localhost:8000/api/orders/")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setOrders(data);
@@ -44,7 +44,7 @@ export default function OrdersPage() {
         setLoading(false);
       });
 
-    fetch("http://localhost:8000/api/customers/")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/customers`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setCustomers(data);
@@ -72,7 +72,7 @@ export default function OrdersPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/api/orders/", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -100,7 +100,7 @@ export default function OrdersPage() {
     if (!editingOrder) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/api/orders/${editingOrder.id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${editingOrder.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -127,7 +127,7 @@ export default function OrdersPage() {
     if (!confirm(`Mark Order #ORD-${order.id} as Cancelled?`)) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/api/orders/${order.id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

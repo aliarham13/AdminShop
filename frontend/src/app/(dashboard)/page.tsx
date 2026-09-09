@@ -37,40 +37,40 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/dashboard/stats")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/stats`)
       .then((res) => res.json())
       .then((data) => setStats(data))
       .catch((err) => console.log(err));
 
-    fetch("http://localhost:8000/api/dashboard/sales-chart")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/sales-chart`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setSalesData(data);
       })
       .catch((err) => console.log(err));
 
-    fetch("http://localhost:8000/api/dashboard/orders-chart")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/orders-chart`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setOrderChartData(data);
       })
       .catch((err) => console.log(err));
 
-    fetch("http://localhost:8000/api/dashboard/category-sales")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/category-sales`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setCategorySales(data);
       })
       .catch((err) => console.log(err));
 
-    fetch("http://localhost:8000/api/dashboard/recent-orders")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/recent-orders`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setRecentOrders(data);
       })
       .catch((err) => console.log(err));
 
-    fetch("http://localhost:8000/api/dashboard/low-stock")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/low-stock`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setLowStock(data);

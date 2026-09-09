@@ -33,7 +33,7 @@ export default function ProductsPage() {
   }, []);
 
   const loadData = () => {
-    fetch("http://localhost:8000/api/products/")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setProducts(data);
@@ -46,7 +46,7 @@ export default function ProductsPage() {
         setLoading(false);
       });
 
-    fetch("http://localhost:8000/api/categories/")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setCategories(data);
@@ -76,7 +76,7 @@ export default function ProductsPage() {
     }
 
     try {
-      const res = await fetch("http://localhost:8000/api/products/", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -109,7 +109,7 @@ export default function ProductsPage() {
     if (!editingProduct) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/api/products/${editingProduct.id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${editingProduct.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -140,7 +140,7 @@ export default function ProductsPage() {
   const handleDeleteProduct = (id: number) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
 
-    fetch(`http://localhost:8000/api/products/${id}`, { method: "DELETE" })
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, { method: "DELETE" })
       .then(() => setProducts(products.filter((p) => p.id !== id)))
       .catch((err) => console.error(err));
   };

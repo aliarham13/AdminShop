@@ -20,13 +20,13 @@ export default function SalesReportPage() {
 
   useEffect(() => {
     // 1. Fetch Key Stats
-    fetch("http://localhost:8000/api/dashboard/stats")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/stats`)
       .then((res) => res.json())
       .then((data) => setStats(data))
       .catch((err) => console.error("Stats error:", err));
 
     // 2. Fetch Sales Trend Data
-    fetch("http://localhost:8000/api/dashboard/sales-chart")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/sales-chart`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setSalesTrend(data);
@@ -34,7 +34,7 @@ export default function SalesReportPage() {
       .catch((err) => console.error("Sales chart error:", err));
 
     // 3. Fetch Category Revenue
-    fetch("http://localhost:8000/api/dashboard/category-sales")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/category-sales`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setCategorySales(data);
@@ -42,7 +42,7 @@ export default function SalesReportPage() {
       .catch((err) => console.error("Category sales error:", err));
 
     // 4. Fetch All Orders for Top Transactions
-    fetch("http://localhost:8000/api/orders/")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders`)
       .then((res) => res.json())
       .then((data) => {
         const orderList = Array.isArray(data) ? data : data.items || [];

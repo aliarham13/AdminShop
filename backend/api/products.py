@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from database import session
 import database_models
 import pydantic_models
+from sqlalchemy.exc import IntegrityError
 
 api = APIRouter(prefix="/api/products", tags=["Products"])
 
@@ -18,15 +19,16 @@ def get_all_products(db: Session = Depends(get_db)):
     db_products = db.query(database_models.Product).all()
     return db_products
 
-@api.get("/{id}")
+@api.get("/{id}", status_code=200)
 def get_product(id: int, db: Session = Depends(get_db)):
     db_product = db.query(database_models.Product).filter(database_models.Product.id == id).first()
     if db_product:
         return db_product
-    return {"message": "Product Not Found"}
+    raise HTTPException(status_code=404, detail="Product not found")
 
-@api.post("/")
+@api.post("/", status_code=201)
 def add_product(product: pydantic_models.Product, db: Session = Depends(get_db)):
+
     new_prod = database_models.Product(
         name=product.name,
         sku=product.sku,
@@ -37,9 +39,20 @@ def add_product(product: pydantic_models.Product, db: Session = Depends(get_db))
         status=product.status,
         category_id=product.category_id
     )
+
     db.add(new_prod)
-    db.commit()
-    db.refresh(new_prod)
+
+    try:
+        db.commit()
+        db.refresh(new_prod)
+
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=409,
+            detail="SKU already exists"
+        )
+
     return new_prod
 
 @api.put("/{id}")
@@ -57,7 +70,7 @@ def update_product(id: int, product: pydantic_models.Product, db: Session = Depe
         return "Product Updated Successfully"
     return {"message": "Product not found"}
 
-@api.delete("/{id}")
+@api.delete("/{id}", status_code=200)
 def delete_product(id: int, db: Session = Depends(get_db)):
     db_product = db.query(database_models.Product).filter(database_models.Product.id == id).first()
     if db_product:

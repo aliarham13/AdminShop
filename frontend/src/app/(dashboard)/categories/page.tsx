@@ -27,7 +27,7 @@ export default function CategoriesPage() {
   }, []);
 
   const loadCategories = () => {
-    fetch("http://localhost:8000/api/categories/")
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories/`)
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setCategories(data);
@@ -52,7 +52,7 @@ export default function CategoriesPage() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:8000/api/categories/", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name.trim(), description: description.trim() }),
@@ -76,7 +76,7 @@ export default function CategoriesPage() {
     if (!editingCategory) return;
 
     try {
-      const res = await fetch(`http://localhost:8000/api/categories/${editingCategory.id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories/${editingCategory.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -101,7 +101,7 @@ export default function CategoriesPage() {
   const handleDeleteCategory = (id: number) => {
     if (!confirm("Are you sure you want to delete this category?")) return;
 
-    fetch(`http://localhost:8000/api/categories/${id}`, { method: "DELETE" })
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/categories/${id}`, { method: "DELETE" })
       .then(() => setCategories(categories.filter((c) => c.id !== id)))
       .catch((err) => console.error(err));
   };

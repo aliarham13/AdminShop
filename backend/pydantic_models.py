@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 class Category(BaseModel):
     id: int = 0
@@ -11,7 +11,7 @@ class Product(BaseModel):
     name: str
     sku: str = ""
     description: str = ""
-    price: float = 0.0
+    price: float = Field(...,gt=0)
     stock: int = 0
     image_url: str = ""
     status: str = "Active"

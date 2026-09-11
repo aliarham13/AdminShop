@@ -36,57 +36,106 @@ export default function DashboardPage() {
   const [lowStock, setLowStock] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   console.log("DASHBOARD USEEFFECT STARTED");
-  //   fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/stats`)
-  //     .then((res) => res.json())
-  //     .then((data) => setStats(data))
-  //     .catch((err) => console.log(err));
-
-  //   fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/sales-chart`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (Array.isArray(data)) setSalesData(data);
-  //     })
-  //     .catch((err) => console.log(err));
-
-  //   fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/orders-chart`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (Array.isArray(data)) setOrderChartData(data);
-  //     })
-  //     .catch((err) => console.log(err));
-
-  //   fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/category-sales`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (Array.isArray(data)) setCategorySales(data);
-  //     })
-  //     .catch((err) => console.log(err));
-
-  //   fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/recent-orders`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       if (Array.isArray(data)) setRecentOrders(data);
-  //     })
-  //     .catch((err) => console.log(err));
-
-  //   fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/low-stock`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log("LOW STOCK FROM DASHBOARD:", data);
-  //       if (Array.isArray(data)) setLowStock(data);
-  //       setLoading(false);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       setLoading(false);
-  //     });
-  // }, []);
   useEffect(() => {
-  console.log("DASHBOARD USEEFFECT STARTED");
-  setLoading(false);
-  }, []); 
+    console.log("DASHBOARD USEEFFECT STARTED");
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/stats`)
+      .then((res) => {
+        console.log("STATS STATUS:", res.status);
+        return res.json();
+      })
+      .then((data) => {
+        console.log("STATS DATA:", data);
+        setStats(data);
+      })
+      .catch((err) => {
+        console.error("STATS ERROR:", err);
+      });
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/sales-chart`)
+      .then((res) => {
+        console.log("SALES CHART STATUS:", res.status);
+        return res.json();
+      })
+      .then((data) => {
+        console.log("SALES CHART DATA:", data);
+
+        if (Array.isArray(data)) {
+          setSalesData(data);
+        }
+      })
+      .catch((err) => {
+        console.error("SALES CHART ERROR:", err);
+      });
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/orders-chart`)
+      .then((res) => {
+        console.log("ORDERS CHART STATUS:", res.status);
+        return res.json();
+      })
+      .then((data) => {
+        console.log("ORDERS CHART DATA:", data);
+
+        if (Array.isArray(data)) {
+          setOrderChartData(data);
+        }
+      })
+      .catch((err) => {
+        console.error("ORDERS CHART ERROR:", err);
+      });
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/category-sales`)
+      .then((res) => {
+        console.log("CATEGORY SALES STATUS:", res.status);
+        return res.json();
+      })
+      .then((data) => {
+        console.log("CATEGORY SALES DATA:", data);
+
+        if (Array.isArray(data)) {
+          setCategorySales(data);
+        }
+      })
+      .catch((err) => {
+        console.error("CATEGORY SALES ERROR:", err);
+      });
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/recent-orders`)
+      .then((res) => {
+        console.log("RECENT ORDERS STATUS:", res.status);
+        return res.json();
+      })
+      .then((data) => {
+        console.log("RECENT ORDERS DATA:", data);
+
+        if (Array.isArray(data)) {
+          setRecentOrders(data);
+        }
+      })
+      .catch((err) => {
+        console.error("RECENT ORDERS ERROR:", err);
+      });
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/low-stock`)
+      .then((res) => {
+        console.log("LOW STOCK STATUS:", res.status);
+        return res.json();
+      })
+      .then((data) => {
+        console.log("LOW STOCK DATA:", data);
+
+        if (Array.isArray(data)) {
+          setLowStock(data);
+        }
+
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("LOW STOCK ERROR:", err);
+        setLoading(false);
+      });
+  }, []);
+
   if (loading) {
     return <div className="p-8 text-slate-500 font-medium">Loading store metrics from database...</div>;
   }

@@ -37,6 +37,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    console.log("DASHBOARD USEEFFECT STARTED");
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/stats`)
       .then((res) => res.json())
       .then((data) => setStats(data))
@@ -73,6 +74,7 @@ export default function DashboardPage() {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/dashboard/low-stock`)
       .then((res) => res.json())
       .then((data) => {
+        console.log("LOW STOCK FROM DASHBOARD:", data);
         if (Array.isArray(data)) setLowStock(data);
         setLoading(false);
       })

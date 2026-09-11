@@ -28,7 +28,7 @@ app.include_router(products.api)
 app.include_router(orders.api)
 app.include_router(dashboard.api)
 
-database_models.Base.metadata.create_all(bind=engine)
+
 
 def get_db():
     db = session()

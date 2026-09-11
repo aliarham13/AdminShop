@@ -1,32 +1,3 @@
-# def test_create_product(client):
-    
-#     product_data = {
-#         "name": "Pytest Keyboard",
-#         "sku": "PYTEST-001",
-#         "price": 100,
-#         "category_id": 1,
-#     }
-
-#     response = client.post(
-#         "/api/products/",
-#         json=product_data,
-#     )
-
-#     assert response.status_code == 201
-
-#     data = response.json()
-
-#     assert data["name"] == "Pytest Keyboard"
-
-#     assert data["sku"] == "PYTEST-001"
-
-#     assert data["price"] == 100
-
-#     assert data["category_id"] == 1
-
-
-
-
 def test_get_product_by_id(client):
     
     product_id = 2
